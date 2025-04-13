@@ -56,7 +56,6 @@ if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
     },
     zadd: async (key, ...args) => {
       if (!inMemoryStorage[key]) inMemoryStorage[key] = []
-      // Simple implementation for zadd
       for (let i = 0; i < args.length; i += 2) {
         const score = args[i]
         const member = args[i + 1]
@@ -126,6 +125,11 @@ app.use("/api/wallets", walletRoutes)
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" })
+})
+
+// 👉 Add this default root route to avoid "Cannot GET /"
+app.get("/", (req, res) => {
+  res.send("✅ Pariah backend is live!");
 })
 
 // Start server
